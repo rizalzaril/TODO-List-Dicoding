@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (todoObject.isCompleted) {
       const undoButton = document.createElement("button");
       undoButton.classList.add("undo-button");
-      undoButton.innerText = "Undo";
+      undoButton.innerText = "";
 
       undoButton.addEventListener("click", function () {
         undoTaskFromCompleted(todoObject.id);
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       const trashButton = document.createElement("button");
       trashButton.classList.add("trash-button");
-      trashButton.innerText = "Delete";
+      trashButton.innerText = "";
 
       trashButton.addEventListener("click", function () {
         removeTaskFromCompleted(todoObject.id);
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       const checkButton = document.createElement("button");
       checkButton.classList.add("check-button");
-      checkButton.innerText = "Complete";
+      checkButton.innerText = "";
 
       checkButton.addEventListener("click", function () {
         addTaskToCompleted(todoObject.id);
@@ -134,4 +134,21 @@ document.addEventListener("DOMContentLoaded", function () {
   function findTodo(todoId) {
     return todos.find((todoItem) => todoItem.id === todoId) || null;
   }
+
+  document.addEventListener(RENDER_EVENT, function () {
+    const uncompletedTODOList = document.getElementById("todos");
+    uncompletedTODOList.innerHTML = "";
+
+    const completedTODOList = document.getElementById("completed-todos");
+    completedTODOList.innerHTML = "";
+
+    for (const todoItem of todos) {
+      const todoElement = makeTodo(todoItem);
+      if (!todoItem.isCompleted) {
+        uncompletedTODOList.append(todoElement);
+      } else {
+        completedTODOList.append(todoElement);
+      }
+    }
+  });
 });
